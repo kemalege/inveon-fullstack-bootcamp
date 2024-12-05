@@ -1,4 +1,5 @@
 ﻿using System;
+using InveonConsoleApp.AsyncSync;
 using InveonConsoleApp.Principles.DIP.DIPSolution;
 using InveonConsoleApp.Principles.ISP.ISPSolution;
 using InveonConsoleApp.Principles.LSP.LSPSolution;
@@ -7,7 +8,6 @@ using InveonConsoleApp.Principles.SRP.WithSRP;
 
 using ViolationNotification = InveonConsoleApp.Principles.DIP.DIPViolation.Notification;
 using DipNotification = InveonConsoleApp.Principles.DIP.DIPSolution.Notification;
-
 
 namespace InveonBootcamp
 {
@@ -53,7 +53,38 @@ namespace InveonBootcamp
             var smsNotification = new DipNotification(new SmsSender());
             smsNotification.Send("Hello via SMS!");
 
+        }
+        
+        static async Task TashExamples(string[] args)
+        {
+            var exampleMethods = new AsyncSyncMethods();
+            await exampleMethods.PerformHeavyCalculationAsync();
 
+            var res = exampleMethods.CalculateSum(1, 2);
+            await FetchData();
+            Console.WriteLine(res);
+            
+            await FetchData();
+        }
+
+        static async Task FetchData()
+        {
+            var exampleMethod = new AsyncAwaitExample();
+            Console.WriteLine("Fetching data...");
+            try
+            {
+                var data = await exampleMethod.FetchDataFromApiAsync("https://jsonplaceholder.typicode.com/posts/1");
+                Console.WriteLine("Data fetched successfully:");
+                Console.WriteLine(data);
+            }
+            catch (HttpRequestException ex)
+            {
+                Console.WriteLine($"Network error: {ex.Message}");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"An error occurred: {ex.Message}");
+            }
         }
     }
 }
