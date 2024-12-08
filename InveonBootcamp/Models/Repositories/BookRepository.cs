@@ -7,13 +7,19 @@ namespace InveonBootcamp.Models.Repositories
     {
         private static readonly List<Book> books = new List<Book>
         {
-            new Book() { Description = "Book 1", Id = 1, Title = "Book 1", Author = "Orhan Pamuk", Price = 100.00m },
-            new Book() { Description = "Book 2", Id = 2, Title = "Book 2", Author = "Tolstoy", Price = 200.00m }
+            new Book() { Description = "A gripping historical novel", Id = 1, Title = "The Midnight Library", Author = "Matt Haig", Price = 150.00m },
+            new Book() { Description = "A classic of Russian literature", Id = 2, Title = "War and Peace", Author = "Leo Tolstoy", Price = 200.00m },
+            new Book() { Description = "An inspiring self-help book", Id = 3, Title = "Atomic Habits", Author = "James Clear", Price = 120.00m },
+            new Book() { Description = "A thrilling fantasy adventure", Id = 4, Title = "The Name of the Wind", Author = "Patrick Rothfuss", Price = 180.00m },
+            new Book() { Description = "A powerful memoir of resilience", Id = 5, Title = "Becoming", Author = "Michelle Obama", Price = 130.00m },
+            new Book() { Description = "A tale of love and tragedy", Id = 6, Title = "Pride and Prejudice", Author = "Jane Austen", Price = 140.00m },
+            new Book() { Description = "A journey through the cosmos", Id = 7, Title = "Cosmos", Author = "Carl Sagan", Price = 170.00m },
+            new Book() { Description = "A compelling science fiction novel", Id = 8, Title = "Dune", Author = "Frank Herbert", Price = 160.00m },
         };
         
-        public Task<List<Book>> GetAllBooks()
+        public Task<List<Book>> GetAllBooksAsync(int skip, int take)
         {
-            return Task.FromResult(books);
+            return Task.FromResult(books.Skip(skip).Take(take).ToList());
         }
 
         public Book? GetBookById(int bookId)

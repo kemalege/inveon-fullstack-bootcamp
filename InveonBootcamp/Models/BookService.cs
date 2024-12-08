@@ -1,4 +1,5 @@
 ﻿using System.Net;
+using InveonBootcamp.Helpers;
 using InveonBootcamp.Models.Repositories;
 using InveonBootcamp.Shared;
 
@@ -6,10 +7,12 @@ namespace InveonBootcamp.Models
 {
     public class BookService(BookRepository bookRepository)
     {
-        public async Task<List<BookDto>> GetBooks()
+        public async Task<List<BookDto>> GetAllAsync(QueryObject query)
         {
+            var skipNumber =(query.PageNumber -1) * query.PageSize;
+            
+            var books = await bookRepository.GetAllBooksAsync(skipNumber, query.PageSize);
          
-            var books= await bookRepository.GetAllBooks();
             var booksAsDto  = books.Select(b => new BookDto()
             {
                 Id = b.Id,
@@ -34,6 +37,18 @@ namespace InveonBootcamp.Models
                 Description = book.Description,
                 Price = book.Price
             };
+        }
+        
+        public ServiceResult DeleteBook(int id)
+        {
+            var book = bookRepository.GetBookById(id);
+            if (book == null)
+            {
+                return ServiceResult<Guid>.Error("Book not found.", $"The Book with ID {id} was not found", HttpStatusCode.NotFound);
+            }
+
+            bookRepository.DeleteBook(id);
+            return ServiceResult.SuccessAsNoContent();
         }
 
     }

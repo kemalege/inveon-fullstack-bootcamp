@@ -1,4 +1,5 @@
-﻿using InveonBootcamp.Models;
+﻿using InveonBootcamp.Helpers;
+using InveonBootcamp.Models;
 using InveonBootcamp.Models.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,9 +10,9 @@ namespace InveonBootcamp.Controllers
     public class BooksController(BookService bookService) : ControllerBase
     {
         [HttpGet]
-        public async Task<IActionResult> GetBooks()
+        public async Task<IActionResult> GetBooks([FromQuery] QueryObject query)
         {
-            var books = await bookService.GetBooks();
+            var books = await bookService.GetAllAsync(query);
             return Ok(books);
         }
         
@@ -22,22 +23,27 @@ namespace InveonBootcamp.Controllers
             return Ok(book);
         }
         
-        [HttpPost(Name = "add")]
+        [HttpPost]
         public IActionResult AddBook([FromBody] BookDto bookDto)
         {
             return CreatedAtAction(nameof(GetBookById), new { id = bookDto.Id }, bookDto);
         }
 
-        [HttpPut("{id}/update")]
+        [HttpPut("{id}")]
         public IActionResult UpdateBook(int id, [FromBody] Book updatedBook)
         {
             return NoContent();
         }
 
-        [HttpDelete("{id}/delete")]
+        [HttpDelete("{id}")]
         public IActionResult DeleteBook(int id)
         {
-            return NoContent();
+            var result = bookService.DeleteBook(id);
+            if (result.IsSuccess)
+            {
+                return NoContent();
+            }
+            return StatusCode((int)result.Status, result.Fail);
         }
     }
         
