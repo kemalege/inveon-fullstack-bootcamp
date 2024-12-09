@@ -1,5 +1,6 @@
 ﻿using System.Net;
 using InveonBootcamp.Helpers;
+using InveonBootcamp.Models.Mappers;
 using InveonBootcamp.Models.Repositories;
 using InveonBootcamp.Shared;
 
@@ -7,22 +8,15 @@ namespace InveonBootcamp.Models
 {
     public class BookService(BookRepository bookRepository)
     {
-        public async Task<List<BookDto>> GetAllAsync(QueryObject query)
+        public async Task<ServiceResult<List<BookDto>>> GetAllAsync(QueryObject query)
         {
             var skipNumber =(query.PageNumber -1) * query.PageSize;
             
             var books = await bookRepository.GetAllBooksAsync(skipNumber, query.PageSize);
-         
-            var booksAsDto  = books.Select(b => new BookDto()
-            {
-                Id = b.Id,
-                Title = b.Title,
-                Author = b.Author,
-                Description = b.Description,
-                Price = b.Price
-            }).ToList();
-       
-            return booksAsDto;
+            
+            var booksAsDto = books.Select(book => book.ToDto()).ToList();
+
+            return ServiceResult<List<BookDto>>.SuccessAsOk(booksAsDto);
         }
 
         public BookDto GetBookById(int id)

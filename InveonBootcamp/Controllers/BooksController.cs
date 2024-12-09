@@ -16,13 +16,22 @@ namespace InveonBootcamp.Controllers
         {
             var userId = Request.Headers["UserId"];
             
-            var cachingKey = $"books_{userId}";
-            var books = cache.GetData<IEnumerable<BookDto>>(cachingKey);
-            if (books is not null)
+            var cachingKey = $"books_{userId}_page{query.PageNumber}_size{query.PageSize}";
+            var cachedBooks = cache.GetData<IEnumerable<BookDto>>(cachingKey);
+            
+            if (cachedBooks is not null)
             {
-                return Ok(books);
+                return Ok(cachedBooks);
             }
-            books = await bookService.GetAllAsync(query);
+            
+            var serviceResult = await bookService.GetAllAsync(query);
+
+            if (serviceResult.IsFail)
+            {
+                return StatusCode((int)serviceResult.Status, serviceResult.Fail);
+            }
+
+            var books = serviceResult.Data;
             cache.SetData(cachingKey, books);
             return Ok(books);
         }
