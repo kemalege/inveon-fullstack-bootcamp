@@ -1,6 +1,6 @@
 @InveonBootcamp_HostAddress = http://localhost:5274
 
-GET {{InveonBootcamp_HostAddress}}/api/books/
+GET {{InveonBootcamp_HostAddress}}/api/books
 Accept: application/json
 
 ###

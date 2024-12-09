@@ -1,5 +1,6 @@
 ﻿using InveonBootcamp.Helpers;
 using InveonBootcamp.Models;
+using InveonBootcamp.Models.Caching;
 using InveonBootcamp.Models.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,12 +8,22 @@ namespace InveonBootcamp.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class BooksController(BookService bookService) : ControllerBase
+    public class BooksController(BookService bookService, IRedisCacheService cache) : ControllerBase
+    
     {
         [HttpGet]
         public async Task<IActionResult> GetBooks([FromQuery] QueryObject query)
         {
-            var books = await bookService.GetAllAsync(query);
+            var userId = Request.Headers["UserId"];
+            
+            var cachingKey = $"books_{userId}";
+            var books = cache.GetData<IEnumerable<BookDto>>(cachingKey);
+            if (books is not null)
+            {
+                return Ok(books);
+            }
+            books = await bookService.GetAllAsync(query);
+            cache.SetData(cachingKey, books);
             return Ok(books);
         }
         

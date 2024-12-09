@@ -1,7 +1,14 @@
 using InveonBootcamp.Models;
+using InveonBootcamp.Models.Caching;
 using InveonBootcamp.Models.Repositories; // BookRepository'nin namespace'i
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddStackExchangeRedisCache(options =>
+{
+    options.Configuration = builder.Configuration.GetConnectionString("Redis");
+    options.InstanceName = "Books_";
+});
 
 // Add services to the container
 builder.Services.AddControllers();
@@ -9,6 +16,7 @@ builder.Services.AddOpenApi();
 
 builder.Services.AddScoped<BookService>();
 builder.Services.AddScoped<BookRepository>();
+builder.Services.AddScoped<IRedisCacheService, RedisCacheService>();
 
 var app = builder.Build();
 
