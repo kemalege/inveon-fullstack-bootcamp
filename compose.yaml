@@ -1,0 +1,12 @@
+﻿services:
+  inveonbootcamp:
+    image: inveonbootcamp
+    build:
+      context: .
+      dockerfile: InveonBootcamp/Dockerfile
+      
+  redis:
+    image: redis
+    ports:
+      - "6379:6379"
+
