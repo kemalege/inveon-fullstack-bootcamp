@@ -1,6 +1,7 @@
 using InveonBootcamp.Models;
 using InveonBootcamp.Models.Caching;
-using InveonBootcamp.Models.Repositories; // BookRepository'nin namespace'i
+using InveonBootcamp.Models.Repositories;
+using Microsoft.EntityFrameworkCore; // BookRepository'nin namespace'i
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,6 +18,11 @@ builder.Services.AddOpenApi();
 builder.Services.AddScoped<BookService>();
 builder.Services.AddScoped<BookRepository>();
 builder.Services.AddScoped<IRedisCacheService, RedisCacheService>();
+
+builder.Services.AddDbContext<AppDbContext>(options =>
+{
+    options.UseSqlServer(builder.Configuration.GetConnectionString("SqlServer"));
+});
 
 var app = builder.Build();
 
