@@ -28,6 +28,22 @@
                     </li>
                 </ul>
             </div>
+            @if (User.Identity.IsAuthenticated)
+            {
+                <form asp-action="Logout" asp-controller="Account" method="post" class="d-inline">
+                    <button type="submit" class="btn btn-danger">Logout</button>
+                </form>
+            }
+            else
+            {
+                <form asp-action="Register" asp-controller="Account" method="post" class="d-inline">
+                    <button type="submit" class="btn btn-outline-secondary">Register</button>
+                </form>
+                <form asp-action="Login" asp-controller="Account" method="post" class="d-inline">
+                    <button type="submit" class="btn btn-primary">Login</button>
+                </form>
+            }
+
         </div>
     </nav>
 </header>
