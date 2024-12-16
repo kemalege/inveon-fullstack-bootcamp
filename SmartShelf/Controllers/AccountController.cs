@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using SmartShelf.Models.DTOs;
 using System.Threading.Tasks;
 using SmartShelf.Models.Repositories;
+using SmartShelf.Models.ViewModels;
 
 namespace SmartShelf.Controllers
 {
@@ -30,7 +31,7 @@ namespace SmartShelf.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Register(RegisterDto model)
+        public async Task<IActionResult> Register(RegisterViewModel model)
         {
             if (!ModelState.IsValid)
                 return View(model);
@@ -58,7 +59,7 @@ namespace SmartShelf.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Login(LoginDto model)
+        public async Task<IActionResult> Login(LoginViewModel model)
         {
             if (!ModelState.IsValid)
                 return View(model);
