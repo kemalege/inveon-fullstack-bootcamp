@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using SmartShelf.Models.Repositories;
+using SmartShelf.Models.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,6 +13,8 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 });
 
 builder.Services.AddIdentity<AppUser, AppRole>().AddEntityFrameworkStores<AppDbContext>();
+
+builder.Services.AddScoped<IAccountService, AccountService>();
 
 builder.Services.ConfigureApplicationCookie(opt =>
 {
