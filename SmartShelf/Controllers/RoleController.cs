@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using SmartShelf.Models.Repositories;
 using System.Threading.Tasks;
 using SmartShelf.Models.DTOs;
+using SmartShelf.Models.ViewModels;
 
 namespace SmartShelf.Controllers;
 
@@ -80,48 +81,6 @@ public class RoleController : Controller
         if (result.Succeeded)
         {
             return Ok("Role updated successfully.");
-        }
-
-        return BadRequest(result.Errors);
-    }
-    
-    [HttpPost("Role/{roleId}/User/{userId}/Assign")]
-    public async Task<IActionResult> Assign(Guid roleId, Guid userId)
-    {
-        var user = await _userManager.FindByIdAsync(userId.ToString());
-        var role = await _roleManager.FindByIdAsync(roleId.ToString());
-
-        if (user == null || role == null)
-        {
-            return NotFound("User or role not found.");
-        }
-
-        var result = await _userManager.AddToRoleAsync(user, role.Name);
-
-        if (result.Succeeded)
-        {
-            return Ok("Role assigned successfully.");
-        }
-
-        return BadRequest(result.Errors);
-    }
-    
-    [HttpDelete("Role/{roleId}/User/{userId}/Remove")]
-    public async Task<IActionResult> Remove(Guid roleId, Guid userId)
-    {
-        var user = await _userManager.FindByIdAsync(userId.ToString());
-        var role = await _roleManager.FindByIdAsync(roleId.ToString());
-
-        if (user == null || role == null)
-        {
-            return NotFound("User or role not found.");
-        }
-
-        var result = await _userManager.RemoveFromRoleAsync(user, role.Name);
-
-        if (result.Succeeded)
-        {
-            return Ok("Role removed successfully.");
         }
 
         return BadRequest(result.Errors);

@@ -1,0 +1,65 @@
+﻿@model SmartShelf.Models.ViewModels.AssignRoleViewModel
+
+@{
+    ViewData["Title"] = "Rolleri Yönet";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<div class="card">
+    <div class="card-header">
+        <h3>@Model.UserName</h3>
+    </div>
+    <div class="card-body">
+        <!-- Yeni Rol Ekleme -->
+        <form method="post" asp-action="AssignRole">
+            @Html.AntiForgeryToken()
+
+            <input type="hidden" asp-for="UserId" />
+
+            <div class="mb-3">
+                <label for="selectedRole" class="form-label">Rol Ekle</label>
+                <select id="selectedRole" asp-for="SelectedRole" class="form-select">
+                    <option value="">Rol Seçin</option>
+                    @foreach (var role in Model.AvailableRoles)
+                    {
+                        <option value="@role">@role</option>
+                    }
+                </select>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Ekle</button>
+        </form>
+
+        <!-- Kullanıcıdan Rol Silme -->
+        <h4 class="mt-4">Mevcut Roller</h4>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Rol Adı</th>
+                <th>İşlemler</th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var role in Model.AssignedRoles)
+            {
+                <tr>
+                    <td>@role</td>
+                    <td>
+                        <!-- Rol Silme Butonu -->
+                        <form method="post" asp-action="RemoveRole" style="display:inline;">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="UserId" value="@Model.UserId" />
+                            <input type="hidden" name="RoleName" value="@role" />
+                            <button type="submit" class="btn btn-danger">Sil</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+    <div class="card-footer">
+        <a href="@Url.Action("List", "User")" class="btn btn-secondary">Geri</a>
+    </div>
+</div>

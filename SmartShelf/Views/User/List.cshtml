@@ -1,0 +1,41 @@
+﻿@model IEnumerable<SmartShelf.Models.Repositories.AppUser>
+
+@{
+    ViewData["Title"] = "Kullanıcı Listesi";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>User Name</th>
+        <th>Email</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var user in Model)
+    {
+        <tr>
+            <td>@user.UserName</td>
+            <td>@user.Email</td>
+            <td>
+                <a href="@Url.Action("Details", "User", new { id = user.Id })" class="btn btn-info">Detaylar</a>
+                <form method="post" asp-action="Delete" asp-route-id="@user.Id" onsubmit="return confirmDelete();" style="display:inline;">
+                    @Html.AntiForgeryToken()
+                    <button type="submit" class="btn btn-danger">Sil</button>
+                </form>
+                <a href="@Url.Action("RoleManagement", "User", new { id = user.Id })" class="btn btn-primary">Rolleri Yönet</a>
+                <a href="@Url.Action("Edit", "User", new { id = user.Id })" class="btn btn-warning">Güncelle</a>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
+
+<script>
+    function confirmDelete() {
+        return confirm("Silmek istediğinize emin misiniz?");
+    }
+</script>

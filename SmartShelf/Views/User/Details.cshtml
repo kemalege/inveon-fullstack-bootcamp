@@ -1,0 +1,37 @@
+﻿@model SmartShelf.Models.Repositories.AppUser
+
+@{
+    ViewData["Title"] = "Kullanıcı Detayı";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<div class="card">
+    <div class="card-header">
+        <h3>@Model.UserName - @Model.Email</h3>
+    </div>
+    <div class="card-body">
+        <dl class="row">
+            <dt class="col-sm-3">User Name</dt>
+            <dd class="col-sm-9">@Model.UserName</dd>
+
+            <dt class="col-sm-3">Email</dt>
+            <dd class="col-sm-9">@Model.Email</dd>
+
+            <dt class="col-sm-3">City</dt>
+            <dd class="col-sm-9">@Model.City</dd>
+
+            <dt class="col-sm-3">User Type</dt>
+            <dd class="col-sm-9">@Model.UserType</dd>
+
+            @if (Model.UserFeature != null)
+            {
+                <dt class="col-sm-3">Gender</dt>
+                <dd class="col-sm-9">@Model.UserFeature.Gender</dd>
+            }
+        </dl>
+    </div>
+    <div class="card-footer">
+        <a href="@Url.Action("List", "User")" class="btn btn-secondary">Back to User List</a>
+    </div>
+</div>
