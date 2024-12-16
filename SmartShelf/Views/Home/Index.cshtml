@@ -3,13 +3,14 @@
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
+    <h1 class="display-4">Hoşgeldiniz</h1>
     @if (User.Identity.IsAuthenticated)
     {
-        <p>Hello, @User.Identity.Name!</p>
+        <p>Merhaba, @User.Identity.Name!</p>
     }
     else
     {
-        <p>Hello, stranger!</p>
+        <p>Hoşgeldiniz!</p>
     }
+    <a href="@Url.Action("Index", "Book")" class="btn btn-primary mt-3">Kitap Listesi</a>
 </div>

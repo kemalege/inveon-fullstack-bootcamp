@@ -1,0 +1,27 @@
+﻿@model SmartShelf.Models.Repositories.Book
+
+@{
+    ViewData["Title"] = "Kitap Detayları";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<div class="card">
+    <div class="card-header">
+        <h3>@Model.Title</h3>
+    </div>
+    <div class="card-body">
+        <p><strong>Yazar:</strong> @Model.Author</p>
+        <p><strong>Yayın Yılı:</strong> @Model.PublicationYear</p>
+        <p><strong>ISBN:</strong> @Model.ISBN</p>
+        <p><strong>Tür:</strong> @Model.Genre</p>
+        <p><strong>Yayıncı:</strong> @Model.Publisher</p>
+        <p><strong>Sayfa Sayısı:</strong> @Model.PageCount</p>
+        <p><strong>Dil:</strong> @Model.Language</p>
+        <p><strong>Kısa Özet:</strong> @Model.Summary</p>
+        <p><strong>Mevcut Kopya Sayısı:</strong> @Model.AvailableCopies</p>
+    </div>
+    <div class="card-footer">
+        <a href="@Url.Action("Index", "Book")" class="btn btn-secondary">Geri</a>
+    </div>
+</div>

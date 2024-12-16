@@ -21,26 +21,29 @@
             <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                 <ul class="navbar-nav flex-grow-1">
                     <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Anasayfa</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                    </li>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="List">Admin</a>
+                        </li>
+                    }
                 </ul>
             </div>
             @if (User.Identity.IsAuthenticated)
             {
                 <form asp-action="Logout" asp-controller="Account" method="post" class="d-inline">
-                    <button type="submit" class="btn btn-danger">Logout</button>
+                    <button type="submit" class="btn btn-danger">Çıkış yap</button>
                 </form>
             }
             else
             {
                 <form asp-action="Register" asp-controller="Account" method="post" class="d-inline">
-                    <button type="submit" class="btn btn-outline-secondary">Register</button>
+                    <button type="submit" class="btn btn-outline-secondary">Üye ol</button>
                 </form>
                 <form asp-action="Login" asp-controller="Account" method="post" class="d-inline">
-                    <button type="submit" class="btn btn-primary">Login</button>
+                    <button type="submit" class="btn btn-primary">Giriş yap</button>
                 </form>
             }
 

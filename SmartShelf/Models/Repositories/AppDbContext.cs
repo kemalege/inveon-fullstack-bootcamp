@@ -5,6 +5,7 @@ namespace SmartShelf.Models.Repositories;
 
 public class AppDbContext(DbContextOptions<AppDbContext> options) : IdentityDbContext<AppUser, AppRole, Guid>(options)
 {
+    public DbSet<Book> Books { get; set; }
     
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -20,6 +21,7 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : IdentityDbCo
         builder.Entity<UserFeature>().HasOne(x => x.AppUser)
             .WithOne(x => x.UserFeature)
             .HasForeignKey<UserFeature>(x => x.UserId);
+        
 
     }
 }

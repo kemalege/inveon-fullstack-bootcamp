@@ -1,23 +1,32 @@
 using System.Diagnostics;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using SmartShelf.Models;
+using SmartShelf.Models.Repositories;
 
 namespace SmartShelf.Controllers;
 
-public class HomeController : Controller
+public class HomeController(
+    UserManager<AppUser> userManager,
+    RoleManager<AppRole> roleManager,
+    SignInManager<AppUser> signInManager) : Controller
 {
     private readonly ILogger<HomeController> _logger;
 
-    public HomeController(ILogger<HomeController> logger)
+    public IActionResult AccessDenied()
     {
-        _logger = logger;
+        return View();
     }
-
+    
     public IActionResult Index()
     {
         return View();
     }
 
+    [Authorize(Roles = "Admin")]
     public IActionResult Privacy()
     {
         return View();

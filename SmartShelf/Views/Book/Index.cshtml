@@ -1,0 +1,29 @@
+﻿@model IEnumerable<SmartShelf.Models.Repositories.Book>
+
+<h2>Kitap Listesi</h2>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>Başlık</th>
+        <th>Yazar</th>
+        <th>Yayın Yılı</th>
+        <th>ISBN</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var book in Model)
+    {
+        <tr>
+            <td>
+                <a href="@Url.Action("Details", "Book", new { id = book.Id })">
+                    @book.Title
+                </a>
+            </td>
+            <td>@book.Author</td>
+            <td>@book.PublicationYear</td>
+            <td>@book.ISBN</td>
+        </tr>
+    }
+    </tbody>
+</table>
