@@ -1,30 +1,29 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using SmartShelf.Models.Repositories;
-using System.Linq;
-using Microsoft.EntityFrameworkCore;
+using SmartShelf.Models.Services;
 
 namespace SmartShelf.Controllers
 {
-    public class BookController(AppDbContext context) : Controller
+    public class BookController : Controller
     {
-        [HttpGet]
-        public IActionResult Index()
+        private readonly IBookService _bookService;
+
+        public BookController(IBookService bookService)
         {
-            var books = context.Books.ToList();
+            _bookService = bookService;
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Index()
+        {
+            var books = await _bookService.GetAllBooksAsync();
             return View(books);
         }
-        
+
         [HttpGet]
         public async Task<IActionResult> Details(int id)
         {
-            var book = await context.Books.FirstOrDefaultAsync(b => b.Id == id);
-            if (book == null)
-            {
-                return NotFound("Book not found.");
-            }
+            var book = await _bookService.GetBookByIdAsync(id);
             return View(book);
         }
-
     }
-    
 }

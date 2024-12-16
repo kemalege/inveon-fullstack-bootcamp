@@ -15,6 +15,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 builder.Services.AddIdentity<AppUser, AppRole>().AddEntityFrameworkStores<AppDbContext>();
 
 builder.Services.AddScoped<IAccountService, AccountService>();
+builder.Services.AddScoped<IBookService, BookService>();
 
 builder.Services.ConfigureApplicationCookie(opt =>
 {
