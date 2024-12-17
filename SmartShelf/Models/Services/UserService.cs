@@ -24,8 +24,11 @@ namespace SmartShelf.Models.Services
 
         public async Task<AppUser> GetUserByIdAsync(Guid id)
         {
-            return await _userManager.Users.Include(u => u.UserFeature).FirstOrDefaultAsync(u => u.Id == id);
+            return await _userManager.Users
+                .Include(u => u.UserFeature)
+                .FirstOrDefaultAsync(u => u.Id == id) ?? new AppUser();
         }
+
 
         public async Task<(bool Success, string[] Errors)> CreateUserAsync(UserCreateDto model)
         {
@@ -44,7 +47,6 @@ namespace SmartShelf.Models.Services
         public async Task<(bool Success, string[] Errors)> UpdateUserAsync(UpdateUserViewModel model)
         {
             var user = await GetUserByIdAsync(model.UserId);
-            if (user == null) return (false, new[] { "User not found" });
 
             user.Email = model.Email;
             user.City = model.City ?? user.City;
@@ -72,6 +74,11 @@ namespace SmartShelf.Models.Services
         public async Task<AssignRoleViewModel> GetUserRolesAsync(Guid userId)
         {
             var user = await _userManager.FindByIdAsync(userId.ToString());
+            if (user == null)
+            {
+                throw new Exception("User not found.");
+            }
+
             var roles = _roleManager.Roles.ToList();
             var userRoles = await _userManager.GetRolesAsync(user);
 
@@ -84,18 +91,31 @@ namespace SmartShelf.Models.Services
             };
         }
 
+
         public async Task<(bool Success, string[] Errors)> AssignRoleAsync(Guid userId, string roleName)
         {
             var user = await _userManager.FindByIdAsync(userId.ToString());
+            if (user == null)
+            {
+                return (false, new[] { "User not found." });
+            }
+
             var result = await _userManager.AddToRoleAsync(user, roleName);
             return (result.Succeeded, result.Errors.Select(e => e.Description).ToArray());
         }
 
+
         public async Task<(bool Success, string[] Errors)> RemoveRoleAsync(Guid userId, string roleName)
         {
             var user = await _userManager.FindByIdAsync(userId.ToString());
+            if (user == null)
+            {
+                return (false, new[] { "User not found." });
+            }
+
             var result = await _userManager.RemoveFromRoleAsync(user, roleName);
             return (result.Succeeded, result.Errors.Select(e => e.Description).ToArray());
         }
+
     }
 }
