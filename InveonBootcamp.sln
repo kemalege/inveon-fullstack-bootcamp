@@ -1,13 +1,12 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InveonBootcamp", "InveonBootcamp\InveonBootcamp.csproj", "{84AF303B-112E-467B-8C9F-C7E84AC00C8D}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InveonConsoleApp", "InveonConsoleApp\InveonConsoleApp.csproj", "{AA0AC3D0-DF5D-4FFB-8D1B-FB6B72CEEC2B}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{D13B422D-3F68-4F7B-BAAD-BDE21F38D7FC}"
 	ProjectSection(SolutionItems) = preProject
 		compose.yaml = compose.yaml
+		README.md = README.md
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartShelf", "SmartShelf\SmartShelf.csproj", "{42ABDA86-7078-4B1A-8448-99CECD235B00}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,13 +14,9 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{84AF303B-112E-467B-8C9F-C7E84AC00C8D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{84AF303B-112E-467B-8C9F-C7E84AC00C8D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{84AF303B-112E-467B-8C9F-C7E84AC00C8D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{84AF303B-112E-467B-8C9F-C7E84AC00C8D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{AA0AC3D0-DF5D-4FFB-8D1B-FB6B72CEEC2B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{AA0AC3D0-DF5D-4FFB-8D1B-FB6B72CEEC2B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{AA0AC3D0-DF5D-4FFB-8D1B-FB6B72CEEC2B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{AA0AC3D0-DF5D-4FFB-8D1B-FB6B72CEEC2B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{42ABDA86-7078-4B1A-8448-99CECD235B00}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{42ABDA86-7078-4B1A-8448-99CECD235B00}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{42ABDA86-7078-4B1A-8448-99CECD235B00}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{42ABDA86-7078-4B1A-8448-99CECD235B00}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
