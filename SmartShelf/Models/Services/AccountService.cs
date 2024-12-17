@@ -8,17 +8,9 @@ using SmartShelf.Models.Repositories;
 
 namespace SmartShelf.Models.Services
 {
-    public class AccountService : IAccountService
+    public class AccountService(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager)
+        : IAccountService
     {
-        private readonly UserManager<AppUser> _userManager;
-        private readonly SignInManager<AppUser> _signInManager;
-
-        public AccountService(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager)
-        {
-            _userManager = userManager;
-            _signInManager = signInManager;
-        }
-
         public async Task<(bool Success, string[] Errors)> RegisterAsync(RegisterViewModel model)
         {
             var user = new AppUser
@@ -28,11 +20,11 @@ namespace SmartShelf.Models.Services
                 City = model.City
             };
 
-            var result = await _userManager.CreateAsync(user, model.Password);
+            var result = await userManager.CreateAsync(user, model.Password);
 
             if (result.Succeeded)
             {
-                await _userManager.AddToRoleAsync(user, "User");
+                await userManager.AddToRoleAsync(user, "User");
                 return (true, null);
             }
 
@@ -41,13 +33,13 @@ namespace SmartShelf.Models.Services
 
         public async Task<bool> LoginAsync(LoginViewModel model)
         {
-            var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, false);
+            var result = await signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, false);
             return result.Succeeded;
         }
 
         public async Task LogoutAsync()
         {
-            await _signInManager.SignOutAsync();
+            await signInManager.SignOutAsync();
         }
     }
 }

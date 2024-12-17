@@ -5,15 +5,8 @@ using System.Threading.Tasks;
 
 namespace SmartShelf.Controllers;
 
-public class AccountController : Controller
+public class AccountController(IAccountService accountService) : Controller
 {
-    private readonly IAccountService _accountService;
-
-    public AccountController(IAccountService accountService)
-    {
-        _accountService = accountService;
-    }
-
     [HttpGet]
     public IActionResult Register()
     {
@@ -32,7 +25,7 @@ public class AccountController : Controller
         if (!ModelState.IsValid)
             return View(model);
 
-        var result = await _accountService.RegisterAsync(model);
+        var result = await accountService.RegisterAsync(model);
 
         if (result.Success)
         {
@@ -51,7 +44,7 @@ public class AccountController : Controller
         if (!ModelState.IsValid)
             return View(model);
 
-        var success = await _accountService.LoginAsync(model);
+        var success = await accountService.LoginAsync(model);
 
         if (success)
         {
@@ -66,7 +59,7 @@ public class AccountController : Controller
     [HttpPost]
     public async Task<IActionResult> Logout()
     {
-        await _accountService.LogoutAsync();
+        await accountService.LogoutAsync();
         return RedirectToAction("Index", "Home");
     }
 }

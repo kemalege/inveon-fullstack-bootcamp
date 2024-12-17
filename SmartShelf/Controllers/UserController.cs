@@ -7,26 +7,19 @@ using SmartShelf.Models.Services;
 namespace SmartShelf.Controllers
 {
     [Authorize(Roles = "Admin")]
-    public class UserController : Controller
+    public class UserController(IUserService userService) : Controller
     {
-        private readonly IUserService _userService;
-
-        public UserController(IUserService userService)
-        {
-            _userService = userService;
-        }
-
         [HttpGet]
         public async Task<IActionResult> List()
         {
-            var users = await _userService.GetAllUsersAsync();
+            var users = await userService.GetAllUsersAsync();
             return View(users);
         }
 
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] UserCreateDto model)
         {
-            var result = await _userService.CreateUserAsync(model);
+            var result = await userService.CreateUserAsync(model);
             if (result.Success)
             {
                 return Ok("User created successfully.");
@@ -38,7 +31,7 @@ namespace SmartShelf.Controllers
         [HttpGet]
         public async Task<IActionResult> Details(Guid id)
         {
-            var user = await _userService.GetUserByIdAsync(id);
+            var user = await userService.GetUserByIdAsync(id);
             if (user == null)
             {
                 return NotFound("User not found.");
@@ -50,7 +43,7 @@ namespace SmartShelf.Controllers
         [HttpGet]
         public async Task<IActionResult> Edit(Guid id)
         {
-            var user = await _userService.GetUserByIdAsync(id);
+            var user = await userService.GetUserByIdAsync(id);
             if (user == null)
             {
                 return NotFound("User not found.");
@@ -72,7 +65,7 @@ namespace SmartShelf.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(UpdateUserViewModel model)
         {
-            var result = await _userService.UpdateUserAsync(model);
+            var result = await userService.UpdateUserAsync(model);
 
             if (result.Success)
             {
@@ -87,7 +80,7 @@ namespace SmartShelf.Controllers
         [HttpPost]
         public async Task<IActionResult> Delete(Guid id)
         {
-            var success = await _userService.DeleteUserAsync(id);
+            var success = await userService.DeleteUserAsync(id);
             if (success)
             {
                 return RedirectToAction("List");
@@ -99,7 +92,7 @@ namespace SmartShelf.Controllers
         [HttpGet]
         public async Task<IActionResult> RoleManagement(Guid id)
         {
-            var model = await _userService.GetUserRolesAsync(id);
+            var model = await userService.GetUserRolesAsync(id);
             if (model == null)
             {
                 return NotFound("User not found.");
@@ -112,7 +105,7 @@ namespace SmartShelf.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AssignRole(AssignRoleViewModel model)
         {
-            var result = await _userService.AssignRoleAsync(model.UserId, model.SelectedRole);
+            var result = await userService.AssignRoleAsync(model.UserId, model.SelectedRole);
             if (result.Success)
             {
                 TempData["Success"] = "Role assigned successfully.";
@@ -129,7 +122,7 @@ namespace SmartShelf.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> RemoveRole(Guid userId, string roleName)
         {
-            var result = await _userService.RemoveRoleAsync(userId, roleName);
+            var result = await userService.RemoveRoleAsync(userId, roleName);
             if (result.Success)
             {
                 TempData["Success"] = $"Role '{roleName}' removed successfully!";

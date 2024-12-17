@@ -7,16 +7,10 @@ using SmartShelf.Models.ViewModels;
 
 namespace SmartShelf.Controllers;
 
-public class RoleController : Controller
+public class RoleController(RoleManager<AppRole> roleManager, UserManager<AppUser> userManager)
+    : Controller
 {
-    private readonly RoleManager<AppRole> _roleManager;
-    private readonly UserManager<AppUser> _userManager;
-
-    public RoleController(RoleManager<AppRole> roleManager, UserManager<AppUser> userManager)
-    {
-        _roleManager = roleManager;
-        _userManager = userManager;
-    }
+    private readonly UserManager<AppUser> _userManager = userManager;
 
     [HttpPost]
     public async Task<IActionResult> Create([FromBody] CreateRoleDto model)
@@ -26,7 +20,7 @@ public class RoleController : Controller
             Name = model.RoleName
         };
 
-        var result = await _roleManager.CreateAsync(role);
+        var result = await roleManager.CreateAsync(role);
 
         if (result.Succeeded)
         {
@@ -40,14 +34,14 @@ public class RoleController : Controller
     [HttpDelete]
     public async Task<IActionResult> Delete([FromBody] CreateRoleDto model)
     {
-        var role = await _roleManager.FindByNameAsync(model.RoleName);
+        var role = await roleManager.FindByNameAsync(model.RoleName);
 
         if (role == null)
         {
             return NotFound("Role not found.");
         }
 
-        var result = await _roleManager.DeleteAsync(role);
+        var result = await roleManager.DeleteAsync(role);
 
         if (result.Succeeded)
         {
@@ -60,14 +54,14 @@ public class RoleController : Controller
     [HttpGet]
     public IActionResult GetList()
     {
-        var roles = _roleManager.Roles.ToList();
+        var roles = roleManager.Roles.ToList();
         return Ok(roles);
     }
     
     [HttpPut]
     public async Task<IActionResult> Update(Guid id, [FromBody] UpdateRoleDto model)
     {
-        var role = await _roleManager.FindByIdAsync(id.ToString());
+        var role = await roleManager.FindByIdAsync(id.ToString());
 
         if (role == null)
         {
@@ -76,7 +70,7 @@ public class RoleController : Controller
 
         role.Name = model.RoleName;
 
-        var result = await _roleManager.UpdateAsync(role);
+        var result = await roleManager.UpdateAsync(role);
 
         if (result.Succeeded)
         {
