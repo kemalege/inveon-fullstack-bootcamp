@@ -32,10 +32,6 @@ namespace SmartShelf.Controllers
         public async Task<IActionResult> Details(Guid id)
         {
             var user = await userService.GetUserByIdAsync(id);
-            if (user == null)
-            {
-                return NotFound("User not found.");
-            }
 
             return View(user);
         }
@@ -44,10 +40,6 @@ namespace SmartShelf.Controllers
         public async Task<IActionResult> Edit(Guid id)
         {
             var user = await userService.GetUserByIdAsync(id);
-            if (user == null)
-            {
-                return NotFound("User not found.");
-            }
 
             var model = new UpdateUserViewModel
             {
@@ -93,10 +85,6 @@ namespace SmartShelf.Controllers
         public async Task<IActionResult> RoleManagement(Guid id)
         {
             var model = await userService.GetUserRolesAsync(id);
-            if (model == null)
-            {
-                return NotFound("User not found.");
-            }
 
             return View(model);
         }
