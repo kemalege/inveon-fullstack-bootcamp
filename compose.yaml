@@ -10,3 +10,9 @@
     ports:
       - "6379:6379"
 
+
+  smartshelf:
+    image: smartshelf
+    build:
+      context: .
+      dockerfile: SmartShelf/Dockerfile
